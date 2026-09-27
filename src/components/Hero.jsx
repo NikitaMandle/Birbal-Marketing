@@ -7,11 +7,36 @@ const stats = [
   { target: 7, suffix: '', label: 'Global Offices' },
 ]
 
+const MOBILE_BREAKPOINT = '(max-width: 768px)'
+
 export default function Hero() {
   const [counts, setCounts] = useState(stats.map(() => 0))
   const [isVisible, setIsVisible] = useState(false)
+  const [isMobile, setIsMobile] = useState(() => {
+    try {
+      return window.matchMedia(MOBILE_BREAKPOINT).matches
+    } catch (err) {
+      return false
+    }
+  })
   const contentRef = useRef(null)
   const statsRef = useRef(null)
+  const videoRef = useRef(null)
+
+  useEffect(() => {
+    const mql = window.matchMedia(MOBILE_BREAKPOINT)
+    const handleChange = (e) => setIsMobile(e.matches)
+
+    mql.addEventListener('change', handleChange)
+    return () => mql.removeEventListener('change', handleChange)
+  }, [])
+
+  useEffect(() => {
+    // Reload the video element whenever the source switches (mobile <-> desktop)
+    if (videoRef.current) {
+      videoRef.current.load()
+    }
+  }, [isMobile])
 
   useEffect(() => {
     const contentElement = contentRef.current
@@ -67,8 +92,9 @@ export default function Hero() {
     <section className="hero" id="home">
       <div className="hero-video-wrap">
         <video
+          ref={videoRef}
           className="hero-video"
-          src="/home.mp4"
+          src={isMobile ? '/home-mobile.mp4' : '/home.mp4'}
           autoPlay
           muted
           loop

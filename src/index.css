@@ -1849,6 +1849,11 @@ body {
 }
 
 @media (max-width: 650px) {
+  .hero-video-wrap {
+    height: 80vh;
+    min-height: 460px;
+  }
+
   .packages-page {
     padding-top: 54px;
   }
@@ -1912,6 +1917,11 @@ body {
 
   .services-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .service-card {
+    margin: 0 16px;
   }
 
   .presence-grid {
