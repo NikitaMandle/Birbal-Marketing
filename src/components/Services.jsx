@@ -1,3 +1,5 @@
+import { useScrollReveal } from '../hooks/useScrollReveal.js'
+
 const services = [
   { title: 'Meta Ads', desc: 'Birbal ke high-performance Meta Ads API, landing pages aur WhatsApp par run hote hain. Low-cost leads, strong conversions aur fast brand growth guaranteed.' },
   { title: 'Google Ads', desc: 'Google Search aur Display Ads se high-intent buyers seedha aapke WhatsApp tak aate hain. Lower lead cost ke saath better results aur agency GST savings.' },
@@ -10,6 +12,9 @@ const services = [
 const industries = ['Sports', 'Casino', 'Dabba', 'Stock Market', 'Prop Firm', 'Matka']
 
 export default function Services() {
+  const [gridRef, gridVisible] = useScrollReveal()
+  const [industriesRef, industriesVisible] = useScrollReveal()
+
   return (
     <section className="services-section container" id="services">
       <div className="eyebrow">Our Services Worldwide</div>
@@ -18,9 +23,13 @@ export default function Services() {
         Birbal Marketing ka mission simple hai - aapka brand famous banana, powerful leads lana aur business ko profit machine banana.
       </p>
 
-      <div className="services-grid">
-        {services.map((s) => (
-          <div className="service-card" key={s.title}>
+      <div className={`services-grid reveal-section ${gridVisible ? 'is-visible' : ''}`} ref={gridRef}>
+        {services.map((s, i) => (
+          <div
+            className="service-card reveal-item"
+            style={{ transitionDelay: `${i * 90}ms` }}
+            key={s.title}
+          >
             <h3>{s.title}</h3>
             <p>{s.desc}</p>
             <button type="button" className="service-button">View Plans</button>
@@ -33,9 +42,15 @@ export default function Services() {
         <p className="industries-intro">
           Birbal Marketing un industries mein kaam karta hai jahan competition high hota hai aur profit aur bhi bada. Hum sirf marketing nahi karte - brands ko market leader banate hain.
         </p>
-        <div className="industry-list">
-          {industries.map((industry) => (
-            <span className="industry-chip" key={industry}>{industry}</span>
+        <div className={`industry-list reveal-section ${industriesVisible ? 'is-visible' : ''}`} ref={industriesRef}>
+          {industries.map((industry, i) => (
+            <span
+              className="industry-chip reveal-item"
+              style={{ transitionDelay: `${i * 70}ms` }}
+              key={industry}
+            >
+              {industry}
+            </span>
           ))}
         </div>
       </div>

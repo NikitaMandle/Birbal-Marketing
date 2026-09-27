@@ -1,3 +1,5 @@
+import { useScrollReveal } from '../hooks/useScrollReveal.js'
+
 const locations = [
   {
     name: 'London',
@@ -30,6 +32,9 @@ const locations = [
 const platforms = ['Meta Ads', 'Google Ads', 'WhatsApp API', 'SMS & RCS Blaster', 'Poster and Design', 'AI Video']
 
 export default function About() {
+  const [gridRef, gridVisible] = useScrollReveal()
+  const [platformsRef, platformsVisible] = useScrollReveal()
+
   return (
     <section className="about-section" id="about">
       <div className="container">
@@ -38,9 +43,13 @@ export default function About() {
           <p>Established offices worldwide with Dubai as the headquarters</p>
         </div>
 
-        <div className="presence-grid">
-          {locations.map((location) => (
-            <article className={location.className} key={location.name}>
+        <div className={`presence-grid reveal-section ${gridVisible ? 'is-visible' : ''}`} ref={gridRef}>
+          {locations.map((location, i) => (
+            <article
+              className={`${location.className} reveal-item`}
+              style={{ transitionDelay: `${i * 100}ms` }}
+              key={location.name}
+            >
               <img src={location.image} alt={`${location.name} office`} />
               {location.isHq && <span className="hq-badge">HQ</span>}
               <span className="location-name">{location.name}</span>
@@ -50,9 +59,13 @@ export default function About() {
 
         <div className="platforms-block">
           <h2>Platforms We Scale Every Day</h2>
-          <div className="platform-list">
-            {platforms.map((platform) => (
-              <span className="platform-pill" key={platform}>
+          <div className={`platform-list reveal-section ${platformsVisible ? 'is-visible' : ''}`} ref={platformsRef}>
+            {platforms.map((platform, i) => (
+              <span
+                className="platform-pill reveal-item"
+                style={{ transitionDelay: `${i * 80}ms` }}
+                key={platform}
+              >
                 <span className="platform-mark">✦</span>
                 {platform}
               </span>
