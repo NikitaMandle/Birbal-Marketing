@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal.js'
+import PlanModal from './PlanModal.jsx'
 
 const locations = [
   {
@@ -29,11 +31,19 @@ const locations = [
   },
 ]
 
-const platforms = ['Meta Ads', 'Google Ads', 'WhatsApp API', 'SMS & RCS Blaster', 'Poster and Design', 'AI Video']
+const platforms = [
+  { name: 'Meta Ads', modalKey: 'meta' },
+  { name: 'Google Ads', modalKey: 'google' },
+  { name: 'WhatsApp API', modalKey: 'api' },
+  { name: 'SMS & RCS Blaster', modalKey: 'sms' },
+  { name: 'Poster and Design', modalKey: 'poster' },
+  { name: 'AI Video' },
+]
 
 export default function About() {
   const [gridRef, gridVisible] = useScrollReveal()
   const [platformsRef, platformsVisible] = useScrollReveal()
+  const [activeModal, setActiveModal] = useState(null)
 
   return (
     <section className="about-section" id="about">
@@ -61,18 +71,22 @@ export default function About() {
           <h2>Platforms We Scale Every Day</h2>
           <div className={`platform-list reveal-section ${platformsVisible ? 'is-visible' : ''}`} ref={platformsRef}>
             {platforms.map((platform, i) => (
-              <span
-                className="platform-pill reveal-item"
+              <button
+                type="button"
+                key={platform.name}
+                className={`platform-pill reveal-item${platform.modalKey ? ' is-clickable' : ''}`}
                 style={{ transitionDelay: `${i * 80}ms` }}
-                key={platform}
+                onClick={platform.modalKey ? () => setActiveModal(platform.modalKey) : undefined}
               >
                 <span className="platform-mark">✦</span>
-                {platform}
-              </span>
+                {platform.name}
+              </button>
             ))}
           </div>
         </div>
       </div>
+
+      <PlanModal activeKey={activeModal} onClose={() => setActiveModal(null)} />
     </section>
   )
 }
