@@ -9,9 +9,10 @@ import Footer from './components/Footer.jsx'
 import Packages from './components/Packages.jsx'
 import SplashScreen from './components/SplashScreen.jsx'
 import LeadPopup, { LEAD_SUBMITTED_KEY } from './components/LeadPopup.jsx'
+import FloatingButtons from './components/FloatingButtons.jsx'
 
 const SPLASH_SEEN_KEY = 'birbal_splash_seen'
-const LEAD_POPUP_DELAY_MS = 2000
+const LEAD_POPUP_DELAY_MS = 3000
 
 export default function App() {
   // Splash shows once per browser tab session (not on every route/section change)
@@ -73,6 +74,8 @@ export default function App() {
       <Footer />
 
       {showLeadPopup && <LeadPopup onClose={() => setShowLeadPopup(false)} />}
+
+      <FloatingButtons onAskAI={() => setShowLeadPopup(true)} />
     </>
   )
 }
